@@ -11,16 +11,22 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.JoL.Miniproject.graphics.Screen;
+import com.JoL.Miniproject.level.Level;
 
 public class Main extends Canvas implements Runnable {
+	private static final long serialVersionUID = 1L;
+
 	public static int WIDTH = 640, HEIGHT = 480;
 	
 	private Screen screen;
+	private Level level;
 	
 	public Main() {
 		Dimension size = new Dimension(WIDTH, HEIGHT);
 		 
+		level = new Level();
 		screen = new Screen();
+		screen.level = level;
 		
 		setSize(size);
 	}
@@ -51,6 +57,7 @@ public class Main extends Canvas implements Runnable {
 	}
 	
 	private void tick() {
+		level.tick();
 	}
 	
 	private void render() {

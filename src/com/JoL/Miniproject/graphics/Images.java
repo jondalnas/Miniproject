@@ -6,11 +6,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Images {
-	public static Bitmap map = loadBitmapImage("map.png");
-	public static Bitmap mapCollision = loadBitmapImage("map collision.png");
-	public static Bitmap denmark = loadBitmapImage("Denmark-Map.jpg");
-	public static Bitmap test = loadBitmapImage("test.png");
-	public static BufferedImage spritesheet = loadImage("Spritesheet.png");
 	
 	private static BufferedImage loadImage(String imageName) {
 		try {
