@@ -16,8 +16,10 @@ public class Level {
 	
 	public Level() {
 		camera = new Camera();
-		
+
 		addEntity(new GravityEntity(Color.blue));
+		int e = addEntity(new Entity(Color.red));
+		entities.get(e).y = 480-64;
 	}
 	
 	public void tick() {
@@ -31,6 +33,6 @@ public class Level {
 	public int addEntity(Entity e) {
 		entities.add(e);
 		e.level = this;
-		return entities.size();
+		return entities.size() - 1;
 	}
 }
