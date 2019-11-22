@@ -61,6 +61,8 @@ public class Line extends Collider {
 				
 				if (x >= x0 && x <= x1) return true;
 			}
+		} else if (c instanceof Polygon) {
+			return c.collide(this);
 		}
 		
 		return false;

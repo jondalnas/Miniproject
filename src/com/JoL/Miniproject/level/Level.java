@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.JoL.Miniproject.colliders.Line;
+import com.JoL.Miniproject.colliders.Polygon;
 import com.JoL.Miniproject.entities.Camera;
 import com.JoL.Miniproject.entities.Entity;
 import com.JoL.Miniproject.entities.GravityEntity;
@@ -22,10 +23,10 @@ public class Level {
 		int e = addEntity(new Entity(Color.red));
 		entities.get(e).y = 480-64;
 
-		Line line0 = new Line(-.5, 1, 1, 1);
-		Line line1 = new Line(-0.51, 2, -0.49, 0);
+		Line line = new Line(.89, .9, 1, 1.01);
+		Polygon poly = new Polygon(new double[][] {new double[] {0, 0}, new double[] {1, 0}, new double[] {1, 1}});
 		
-		System.out.println(line0.collide(line1));
+		System.out.println(line.collide(poly));
 	}
 	
 	public void tick() {
