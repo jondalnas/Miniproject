@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.JoL.Miniproject.colliders.Line;
 import com.JoL.Miniproject.entities.Camera;
 import com.JoL.Miniproject.entities.Entity;
 import com.JoL.Miniproject.entities.GravityEntity;
@@ -20,6 +21,11 @@ public class Level {
 		addEntity(new GravityEntity(Color.blue));
 		int e = addEntity(new Entity(Color.red));
 		entities.get(e).y = 480-64;
+
+		Line line0 = new Line(-.5, 1, 1, 1);
+		Line line1 = new Line(-0.51, 2, -0.49, 0);
+		
+		System.out.println(line0.collide(line1));
 	}
 	
 	public void tick() {
