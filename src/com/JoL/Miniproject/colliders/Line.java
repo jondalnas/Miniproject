@@ -25,32 +25,42 @@ public class Line extends Collider {
 	}
 	
 	public boolean collide(Collider c) {
+		recalculateB();
+		
 		if (c instanceof Line) {
 			Line line = (Line) c;
-			//Check if lines are parallel, if they are then they don't collide
-			if (a == line.getA()) {
-				if (b != line.getB())
-					return false;
-				else
-					return true;
-			}
 			
 			//Find point of collision
 
 			//If a is Infinity, then the line is straight up and down
 			if (a == Double.POSITIVE_INFINITY) {
-				if (x0 < line.x0 || x0 > line.x1) return false;
+				if (line.getA() == Double.POSITIVE_INFINITY) {
+					if ((y0 + y < line.y1 + line.y && y0 + y > line.y0 + line.y) || (y1 + y < line.y1 + line.y && y1 + y > line.y0 + line.y)) return true;
+					if ((line.y0 + line.y < y1 + y && line.y0 + line.y > y0 + y) || (line.y1 + line.y < y1 + y && line.y1 + line.y > y0 + y)) return true;
+					
+					return false;
+				}
 				
-				double y = line.getA() * x0 + line.getB();
+				if (x0 + x < line.x0 + line.x || x0 + x > line.x1 + line.x) return false;
 				
-				if (y >= y0 && y <= y1) return true;
+				double y = line.getA() * (x0 + x) + line.getB();
+				
+				if (y >= y0 + this.y && y <= y1 + this.y) return true;
 			} else if (line.getA() == Double.POSITIVE_INFINITY) {
-				if (line.x0 < x0 || line.x0 > x1) return false;
+				if (line.x0 + line.x < x0 + x || line.x0 + line.x > x1 + x) return false;
 				
-				double y = a * line.x0 + b;
+				double y = a * (line.x0 + line.x) + b;
 				
-				if (y >= line.y0 && y <= line.y1) return true;
+				if (y >= line.y0  + line.y && y <= line.y1 + line.y) return true;
 			} else {
+				//Check if lines are parallel, if they are then they don't collide
+				if (a == line.getA()) {
+					if (b != line.getB())
+						return false;
+					else
+						return true;
+				}
+				
 				//y=a*x+b
 				//y=a_line*x+b_line
 				//a*x+b=a_line*x+b_line
@@ -59,7 +69,7 @@ public class Line extends Collider {
 				//(b-b_line)/(a_line-a)=x
 				double x = (b-line.getB())/(line.getA()-a);
 				
-				if (x >= x0 && x <= x1) return true;
+				if (x >= x0 + x && x <= x1 + x) return true;
 			}
 		} else if (c instanceof Polygon) {
 			return c.collide(this);
@@ -78,8 +88,13 @@ public class Line extends Collider {
 	
 	public void recalculateLine() {
 		a = (y0 - y1) / (x0 - x1);
-		b = y0 - a * x0;
 		
 		if (a == Double.NEGATIVE_INFINITY) a = -a;
+		
+		recalculateB();
+	}
+	
+	public void recalculateB() {
+		b = (y0 + y) - a * (x0 + x);
 	}
 }

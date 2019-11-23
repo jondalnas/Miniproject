@@ -22,7 +22,11 @@ public class Polygon extends Collider {
 
 	public boolean collide(Collider c) {
 		for (Line l : polygon) {
-			if (l.collide(c)) return true;
+			l.x = x;
+			l.y = y;
+			
+			if (c.collide(l))
+				return true;
 		}
 		
 		return false;

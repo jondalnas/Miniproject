@@ -81,9 +81,20 @@ public class Main extends Canvas implements Runnable {
 	@Override
 	public void run() {
 		long lastTick = System.nanoTime();
+		int frames = 0;
+		long lastSec = System.nanoTime();
 		while (true) {
-			deltaTime = ((System.nanoTime() - lastTick) * 1.0e-9);
+			deltaTime = (System.nanoTime() - lastTick) * 1.0e-9;
 			lastTick = System.nanoTime();
+			
+			frames++;
+			
+			if (System.nanoTime() - lastSec >= 1e9) {
+				System.out.println("FPS: " + frames);
+				
+				frames = 0;
+				lastSec = System.nanoTime();
+			}
 			
 			tick();
 			render();

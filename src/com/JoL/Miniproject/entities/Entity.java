@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.JoL.Miniproject.Main;
+import com.JoL.Miniproject.colliders.Polygon;
 import com.JoL.Miniproject.level.Level;
 
 public class Entity {
@@ -15,8 +16,12 @@ public class Entity {
 	
 	public Level level;
 	
-	public Entity(Color color) {
+	public Polygon collider;
+	
+	public Entity(Color color, double width, double height) {
 		entityColor = color;
+		
+		collider = new Polygon(new double[][] {new double[] {0, 0}, new double[] {width, 0}, new double[] {width, height}, new double[] {0, height}});
 	}
 	
 	public void tick() {
@@ -41,7 +46,11 @@ public class Entity {
 				Entity e = collidingEntitiesLeft.get(j);
 				
 				//If entity isn't inside checking entity and they aren't the same then continue, else remove it from the list
-				if (e != this && newX < e.x+64 && newY < e.y+64 && newX+64 > e.x && newY+64 > e.y) {
+				collider.x = newX;
+				collider.y = newY;
+				e.collider.x = e.x;
+				e.collider.y = e.y;
+				if (e != this && e.collider.collide(collider)) {
 					continue;
 				}
 				
