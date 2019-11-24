@@ -17,19 +17,23 @@ public class Entity {
 	public Level level;
 	
 	public Polygon collider;
+	private double width, height;
 	
 	public Entity(Color color, double width, double height) {
 		entityColor = color;
+		this.width = width;
+		this.height = height;
 		
 		collider = new Polygon(new double[][] {new double[] {0, 0}, new double[] {width, 0}, new double[] {width, height}, new double[] {0, height}});
+		//collider = new Polygon(new double[][] {new double[] {0, 0}, new double[] {width, 0}, new double[] {width, height}});
 	}
 	
 	public void tick() {
 	}
 	
 	protected void move() {
-		move(dx, 0);
 		move(0, dy);
+		move(dx, 0);
 	}
 	
 	private void move(double dx, double dy) {
@@ -70,18 +74,18 @@ public class Entity {
 				
 				if (dx == 0) {
 					if (dy < 0) {
-						y = e.y+64;
+						y = e.y+64.1;
 						this.dy = 0;
 					} else {
-						y = e.y-64;
+						y = e.y-64.1;
 						this.dy = 0;
 					}
 				} else {
 					if (dx < 0) {
-						x = e.x+64;
+						x = e.x+64.1;
 						this.dx = 0;
 					} else {
-						x = e.x-64;
+						x = e.x-64.1;
 						this.dx = 0;
 					}
 				}
@@ -93,6 +97,6 @@ public class Entity {
 	
 	public void render(Graphics g) {
 		g.setColor(entityColor);
-		g.fillRect((int) (x - level.camera.x), (int) (y - level.camera.y), 64, 64);
+		g.fillRect((int) Math.round(x - level.camera.x), (int) Math.round(y - level.camera.y), (int) width, (int) height);
 	}
 }
