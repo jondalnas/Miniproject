@@ -12,7 +12,7 @@ public class Player extends GravityEntity {
 	private double jumpSpeed = 512;
 	
 	public Player() {
-		super(new Color(255, 0, 255));
+		super(new Color(255, 0, 255), 64, 64);
 	}
 	
 	public void tick() {
@@ -29,6 +29,6 @@ public class Player extends GravityEntity {
 	
 	public void render(Graphics g) {
 		g.setColor(entityColor);
-		g.fillRect(Main.WIDTH/2 - 64/2, Main.HEIGHT/2 - 64/2, 64, 64);
+		g.fillRect(Main.WIDTH/2 - 64/2, Main.HEIGHT/2 - 64/2, (int) width, (int) height);
 	}
 }

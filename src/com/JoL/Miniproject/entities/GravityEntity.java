@@ -6,8 +6,8 @@ import com.JoL.Miniproject.Main;
 import com.JoL.Miniproject.level.Level;
 
 public class GravityEntity extends Entity {
-	public GravityEntity(Color color) {
-		super(color);
+	public GravityEntity(Color color, double width, double height) {
+		super(color, width, height);
 	}
 
 	/**
