@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.JoL.Miniproject.entities.Camera;
 import com.JoL.Miniproject.entities.Entity;
-import com.JoL.Miniproject.entities.GravityEntity;
+import com.JoL.Miniproject.entities.Player;
 
 public class Level {
 	public static double GRAVITY = 9.82 * 64; //64 pixels is one meter
@@ -17,7 +17,7 @@ public class Level {
 	public Level() {
 		camera = new Camera();
 
-		addEntity(new GravityEntity(Color.blue));
+		addEntity(new Player());
 		int e = addEntity(new Entity(Color.red));
 		entities.get(e).y = 480-64;
 	}

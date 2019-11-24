@@ -20,6 +20,7 @@ public class Main extends Canvas implements Runnable {
 	
 	private Screen screen;
 	private Level level;
+	private Input input;
 	
 	public Main() {
 		Dimension size = new Dimension(WIDTH, HEIGHT);
@@ -27,6 +28,9 @@ public class Main extends Canvas implements Runnable {
 		level = new Level();
 		screen = new Screen();
 		screen.level = level;
+		
+		input = new Input();
+		addKeyListener(input);
 		
 		setSize(size);
 	}
