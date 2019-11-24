@@ -36,7 +36,7 @@ public class Line extends Collider {
 			//If a is Infinity, then the line is straight up and down
 			if (a == Double.POSITIVE_INFINITY) {
 				if (line.getA() == Double.POSITIVE_INFINITY) {
-					if (x0 != line.x0) return false;
+					if (x0 + x != line.x0 + line.x) return false;
 					
 					if (y0 + y < line.y1 + line.y && y1 + y > line.y0 + line.y) return true;
 					

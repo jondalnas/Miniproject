@@ -33,12 +33,12 @@ public class Entity {
 	}
 	
 	protected void move() {
-		move(0, dy);
-		move(dx, 0);
+		if (!move(0, dy)) dy = 0;
+		if (!move(dx, 0)) dx = 0;
 	}
 	
-	private void move(double dx, double dy) {
-		if (dx == 0 && dy == 0) return;
+	private boolean move(double dx, double dy) {
+		if (dx == 0 && dy == 0) return true;
 		
 		List<Entity> collidingEntitiesLeft = (List<Entity>) ((ArrayList) level.entities).clone();
 		
@@ -68,36 +68,17 @@ public class Entity {
 				x += dx * Main.deltaTime() * i;
 				y += dy * Main.deltaTime() * i;
 				
-				if (dy != 0) grounded = false;
-				
-				return;
-			}
-			//If there is only one entity left then set position to be next to it
-			else if (collidingEntitiesLeft.size() == 1) {
-				Entity e = collidingEntitiesLeft.get(0);
-				
-				if (dx == 0) {
-					if (dy < 0) {
-						y = e.y+64.1;
-						this.dy = 0;
-					} else {
-						y = e.y-64.1;
-						this.dy = 0;
-						grounded = true;
-					}
-				} else {
-					if (dx < 0) {
-						x = e.x+64.1;
-						this.dx = 0;
-					} else {
-						x = e.x-64.1;
-						this.dx = 0;
-					}
+				if (i == 1) {
+					if (dy != 0) grounded = false;
+					return true;
 				}
 				
-				return;
+				if (dy != 0) grounded = true;
+				return false;
 			}
 		}
+		
+		return false;
 	}
 	
 	public void render(Graphics g) {
