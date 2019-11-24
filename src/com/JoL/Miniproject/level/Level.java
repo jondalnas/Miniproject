@@ -19,11 +19,11 @@ public class Level {
 		camera = new Camera();
 
 		addEntity(new Player());
-		int e = addEntity(new Entity(Color.red, Main.WIDTH/2, 64));
+		/*int e = addEntity(new Entity(Color.red, Main.WIDTH/2, 64));
 		entities.get(e).y = 480-64;
 		int e1 = addEntity(new Entity(Color.red, 64, 64*3));
 		entities.get(e1).y = 480-64*3;
-		entities.get(e1).x = -64;
+		entities.get(e1).x = -64;*/
 	}
 	
 	public void tick() {

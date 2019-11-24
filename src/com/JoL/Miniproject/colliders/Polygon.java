@@ -18,6 +18,8 @@ public class Polygon extends Collider {
 			
 			lastPoint = point;
 		}
+		
+		polygon.add(new Line(points[0][0], points[0][1], lastPoint[0], lastPoint[1]));
 	}
 
 	public boolean collide(Collider c) {

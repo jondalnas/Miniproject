@@ -106,6 +106,9 @@ public class Main extends Canvas implements Runnable {
 	}
 	
 	public static double deltaTime() {
+		//TODO: Remove this
+		if (deltaTime > .1) return .01;
+		
 		return deltaTime;
 	}
 }
