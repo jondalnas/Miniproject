@@ -20,6 +20,7 @@ public class Entity {
 	protected boolean grounded;
 	public Polygon collider;
 	protected double width, height;
+	public double maxStepHeight = 1;
 	
 	public Entity(Color color, double width, double height) {
 		entityColor = color;
@@ -66,10 +67,8 @@ public class Entity {
 			for (int j = 0; j < colliders.size(); j++) {
 				Collider c = colliders.get(j);
 				
-				//If entity isn't inside checking entity and they aren't the same then continue, else remove it from the list
-				if (c.collide(collider)) {
-					continue;
-				}
+				//If collider isn't inside checking collider then continue, else remove it from the list
+				if (c.collide(collider)) continue;
 				
 				colliders.remove(j);
 				j--;
@@ -87,6 +86,20 @@ public class Entity {
 				
 				if (dy != 0) grounded = true;
 				return false;
+			} else if (dx != 0 && colliders.size() == 1) {
+				Collider c = colliders.get(0);
+				
+				for (double j = 0.25; j <= 1; j += 0.25) {
+					collider.y = newY - maxStepHeight * j;
+					
+					if (!c.collide(collider)) {
+						x += dx * Main.deltaTime() * i;
+						y += dy * Main.deltaTime() * i - maxStepHeight * j;
+
+						if (dy != 0) grounded = true;
+						return false;
+					}
+				}
 			}
 		}
 		
