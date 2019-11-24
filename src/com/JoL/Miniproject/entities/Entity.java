@@ -15,6 +15,8 @@ public class Entity {
 	
 	public Level level;
 	
+	protected boolean grounded;
+	
 	public Entity(Color color) {
 		entityColor = color;
 	}
@@ -53,6 +55,9 @@ public class Entity {
 			if (collidingEntitiesLeft.size() == 0) {
 				x += dx * Main.deltaTime() * i;
 				y += dy * Main.deltaTime() * i;
+				
+				if (dy != 0) grounded = false;
+				
 				return;
 			}
 			//If there is only one entity left then set position to be next to it
@@ -66,6 +71,7 @@ public class Entity {
 					} else {
 						y = e.y-64;
 						this.dy = 0;
+						grounded = true;
 					}
 				} else {
 					if (dx < 0) {

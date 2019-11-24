@@ -9,7 +9,7 @@ import com.sun.glass.events.KeyEvent;
 
 public class Player extends GravityEntity {
 	private double speed = 256;
-	private double jumpSpeed = 1024;
+	private double jumpSpeed = 512;
 	
 	public Player() {
 		super(new Color(255, 0, 255));
@@ -20,7 +20,7 @@ public class Player extends GravityEntity {
 		if (Input.keys[KeyEvent.VK_D]) dx += speed;
 		if (Input.keys[KeyEvent.VK_A]) dx -= speed;
 		
-		if (Input.keys[KeyEvent.VK_SPACE]) dy = -jumpSpeed;
+		if (grounded && Input.keys[KeyEvent.VK_SPACE]) dy = -jumpSpeed;
 		
 		super.tick();
 		level.camera.x = x - Main.WIDTH/2 + 64/2;
