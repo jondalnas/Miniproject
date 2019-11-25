@@ -30,6 +30,8 @@ public class Main extends Canvas implements Runnable {
 	}
 	
 	public static void main(String[] args) {
+		System.setProperty("sun.java2d.opengl", "true");
+		
 		Main main = new Main();
 
 		JFrame frame = new JFrame("Hello");
