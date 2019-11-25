@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 
 import com.JoL.Miniproject.Input;
 import com.JoL.Miniproject.Main;
+import com.JoL.Miniproject.level.Level;
 
 public class Player extends GravityEntity {
 	private double speed = 256;
@@ -23,8 +24,8 @@ public class Player extends GravityEntity {
 		if (grounded && Input.keys[KeyEvent.VK_SPACE]) dy = -jumpSpeed;
 		
 		super.tick();
-		level.camera.x = x - Main.WIDTH/2 + 64/2;
-		level.camera.y = y - Main.HEIGHT/2 + 64/2;
+		Level.camera.x = x - Main.WIDTH/2 + 64/2;
+		Level.camera.y = y - Main.HEIGHT/2 + 64/2;
 	}
 	
 	public void render(Graphics g) {

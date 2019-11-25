@@ -2,7 +2,6 @@ package com.JoL.Miniproject.graphics;
 
 import java.awt.Graphics;
 
-import com.JoL.Miniproject.Main;
 import com.JoL.Miniproject.entities.Entity;
 import com.JoL.Miniproject.level.Level;
 

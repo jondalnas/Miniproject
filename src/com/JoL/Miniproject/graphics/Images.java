@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 
 public class Images {
 	
+	@SuppressWarnings("unused")
 	private static BufferedImage loadImage(String imageName) {
 		try {
 			return ImageIO.read(Images.class.getResource("/tex/" + imageName));
@@ -15,6 +16,7 @@ public class Images {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private static Bitmap loadBitmapImage(String imageName) {
 		try {
 			BufferedImage img = ImageIO.read(Images.class.getResource("/tex/" + imageName));

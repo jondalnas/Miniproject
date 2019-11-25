@@ -89,11 +89,11 @@ public class Entity {
 				Collider c = colliders.get(0);
 				
 				for (double j = 0.25; j <= 1; j += 0.25) {
-					collider.y = newY - maxStepHeight * ddx * j;
+					collider.y = newY - maxStepHeight * Math.abs(ddx) * j;
 					
 					if (!c.collide(collider)) {
 						x += ddx;
-						y += ddy - maxStepHeight * ddx * j;
+						y += ddy - maxStepHeight * Math.abs(ddx) * j;
 
 						if (dy != 0) grounded = true;
 						return false;
@@ -112,6 +112,6 @@ public class Entity {
 	
 	public void render(Graphics g) {
 		g.setColor(entityColor);
-		g.fillRect((int) Math.round(x - level.camera.x), (int) Math.round(y - level.camera.y), (int) width, (int) height);
+		g.fillRect((int) Math.round(x - Level.camera.x), (int) Math.round(y - Level.camera.y), (int) width, (int) height);
 	}
 }
