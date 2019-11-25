@@ -1,5 +1,6 @@
 package com.JoL.Miniproject.colliders;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,7 @@ public class Polygon extends Collider {
 			ypp[i] += y - Level.camera.y;
 		}
 		
+		g.setColor(Color.BLACK);
 		g.fillPolygon(xpp, ypp, xp.length);
 	}
 }
