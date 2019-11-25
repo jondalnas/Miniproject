@@ -2,10 +2,10 @@ package com.JoL.Miniproject.entities;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 
 import com.JoL.Miniproject.Input;
 import com.JoL.Miniproject.Main;
-import com.sun.glass.events.KeyEvent;
 
 public class Player extends GravityEntity {
 	private double speed = 256;

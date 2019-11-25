@@ -5,6 +5,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
@@ -18,9 +19,13 @@ public class Main extends Canvas implements Runnable {
 
 	public static int WIDTH = 640, HEIGHT = 480;
 	
+	private int targetFPS = 60;
+	
 	private Screen screen;
 	private Level level;
 	private Input input;
+	
+	private boolean isLinux;
 	
 	public Main() {
 		Dimension size = new Dimension(WIDTH, HEIGHT);
@@ -33,6 +38,8 @@ public class Main extends Canvas implements Runnable {
 		addKeyListener(input);
 		
 		setSize(size);
+		
+		isLinux = System.getProperty("os.name") == "Linux";
 	}
 	
 	public void start() {
@@ -40,6 +47,7 @@ public class Main extends Canvas implements Runnable {
 	}
 	
 	public static void main(String[] args) {
+		System.setProperty("sun.java2d.opengl", "true");
 		Main main = new Main();
 
 		JFrame frame = new JFrame("Hello");
@@ -87,7 +95,17 @@ public class Main extends Canvas implements Runnable {
 		long lastTick = System.nanoTime();
 		int frames = 0;
 		long lastSec = System.nanoTime();
+		
+		long timeBetweenFrames = ((long) 1e9)/targetFPS;
+		
 		while (true) {
+			try {
+				long sleepTime = (long) ((timeBetweenFrames - (System.nanoTime() - lastTick))*1e-6);
+				if (sleepTime > 0) Thread.sleep(sleepTime);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
 			deltaTime = (System.nanoTime() - lastTick) * 1.0e-9;
 			lastTick = System.nanoTime();
 			
@@ -101,14 +119,13 @@ public class Main extends Canvas implements Runnable {
 			}
 			
 			tick();
+			
+			if (isLinux) Toolkit.getDefaultToolkit().sync();
 			render();
 		}
 	}
 	
 	public static double deltaTime() {
-		//TODO: Remove this
-		if (deltaTime > .1) return .01;
-		
 		return deltaTime;
 	}
 }
