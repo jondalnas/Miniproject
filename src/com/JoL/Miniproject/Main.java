@@ -11,6 +11,7 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.JoL.Miniproject.Input;
 import com.JoL.Miniproject.graphics.Screen;
 import com.JoL.Miniproject.level.Level;
 
@@ -25,8 +26,6 @@ public class Main extends Canvas implements Runnable {
 	private Level level;
 	private Input input;
 	
-	private boolean isLinux;
-	
 	public Main() {
 		Dimension size = new Dimension(WIDTH, HEIGHT);
 		 
@@ -38,8 +37,6 @@ public class Main extends Canvas implements Runnable {
 		addKeyListener(input);
 		
 		setSize(size);
-		
-		isLinux = System.getProperty("os.name") == "Linux";
 	}
 	
 	public void start() {
@@ -120,7 +117,6 @@ public class Main extends Canvas implements Runnable {
 			
 			tick();
 			
-			if (isLinux) Toolkit.getDefaultToolkit().sync();
 			render();
 		}
 	}

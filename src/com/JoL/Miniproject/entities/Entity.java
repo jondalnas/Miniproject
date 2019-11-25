@@ -28,7 +28,6 @@ public class Entity {
 		this.height = height;
 		
 		collider = new Polygon(new double[][] {new double[] {0, 0}, new double[] {width, 0}, new double[] {width, height}, new double[] {0, height}});
-		//collider = new Polygon(new double[][] {new double[] {0, 0}, new double[] {width, 0}, new double[] {width, height}});
 	}
 	
 	public void tick() {
@@ -51,15 +50,15 @@ public class Entity {
 			colliders.add(e.collider);
 		}
 		
-		colliders.add(new Polygon(new double[][] {new double[]{0, 0},
-												  new double[]{Main.WIDTH, 0},
-												  new double[]{Main.WIDTH, -256}}));
-		colliders.get(colliders.size() - 1).y = Main.HEIGHT;
+		colliders.add(level.level);
 		
 		//Loop through all distance percents backwards, and check if it collides with 
 		for (double i = 1; i > 0; i -= 0.01) {
-			double newX = x + dx * Main.deltaTime() * i;
-			double newY = y + dy * Main.deltaTime() * i;
+			double ddx = dx * Main.deltaTime() * i;
+			double ddy = dy * Main.deltaTime() * i;
+			
+			double newX = x + ddx;
+			double newY = y + ddy;
 
 			collider.x = newX;
 			collider.y = newY;
@@ -76,8 +75,8 @@ public class Entity {
 
 			//If there isn't anything that the player collides with then move player full length
 			if (colliders.size() == 0) {
-				x += dx * Main.deltaTime() * i;
-				y += dy * Main.deltaTime() * i;
+				x += ddx;
+				y += ddy;
 				
 				if (i == 1) {
 					if (dy != 0) grounded = false;
@@ -90,11 +89,11 @@ public class Entity {
 				Collider c = colliders.get(0);
 				
 				for (double j = 0.25; j <= 1; j += 0.25) {
-					collider.y = newY - maxStepHeight * j;
+					collider.y = newY - maxStepHeight * ddx * j;
 					
 					if (!c.collide(collider)) {
-						x += dx * Main.deltaTime() * i;
-						y += dy * Main.deltaTime() * i - maxStepHeight * j;
+						x += ddx;
+						y += ddy - maxStepHeight * ddx * j;
 
 						if (dy != 0) grounded = true;
 						return false;

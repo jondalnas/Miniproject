@@ -1,12 +1,25 @@
 package com.JoL.Miniproject.colliders;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.JoL.Miniproject.level.Level;
+
 public class Polygon extends Collider {
 	public List<Line> polygon = new ArrayList<Line>();
+	public int[] xp;
+	public int[] yp;
 	
 	public Polygon(double[][] points) {
+		xp = new int[points.length + 1];
+		yp = new int[points.length + 1];
+		
+		for (int i = 0; i < points.length; i++) {
+			xp[i] = (int) points[i][0];
+			yp[i] = (int) points[i][1];
+		}
+		
 		double[] lastPoint = null;
 		for (double[] point : points) {
 			if (lastPoint == null) {
@@ -32,5 +45,17 @@ public class Polygon extends Collider {
 		}
 		
 		return false;
+	}
+	
+	public void render(Graphics g) {
+		int[] xpp = xp.clone();
+		int[] ypp = yp.clone();
+		
+		for (int i = 0; i < xpp.length; i++) {
+			xpp[i] += x - Level.camera.x;
+			ypp[i] += y - Level.camera.y;
+		}
+		
+		g.fillPolygon(xpp, ypp, xp.length);
 	}
 }

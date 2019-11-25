@@ -5,7 +5,18 @@ public class Line extends Collider {
 	private double a, b;
 	
 	public Line(double x0, double y0, double x1, double y1) {
-		if (x0 > x1) { 
+		if (x0 == x1) {
+			 this.x0 = x0;
+			 this.x1 = x1;
+			 
+			 if (y0 > y1) {
+				 this.y0 = y1;
+				 this.y1 = y0;
+			 } else {
+				 this.y0 = y0;
+				 this.y1 = y1;
+			 }
+		} else if (x0 > x1) {
 			this.x0 = x1;
 			this.x1 = x0;
 			this.y0 = y1;
