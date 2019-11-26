@@ -15,10 +15,9 @@ public class Level {
 	
 	public static Camera camera;
 	public List<Entity> entities = new ArrayList<Entity>();
+	private Player player;
 	
 	public Polygon level;
-	
-	private Player player;
 	
 	public Level() {
 		camera = new Camera();
