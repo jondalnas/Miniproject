@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.JoL.Miniproject.graphics.Screen;
+import com.JoL.Miniproject.level.LevelLoader;
 
 public class Main extends Canvas implements Runnable {
 	public static int WIDTH = 640, HEIGHT = 480;
@@ -80,6 +81,7 @@ public class Main extends Canvas implements Runnable {
 			
 			tick();
 			render();
+			LevelLoader.loadFile("Shapes");
 		}
 	}
 	
