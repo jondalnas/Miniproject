@@ -1,13 +1,16 @@
 package com.JoL.Miniproject.graphics;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
-import com.JoL.Miniproject.Main;
+import com.JoL.Miniproject.entities.Entity;
+import com.JoL.Miniproject.level.Level;
 
 public class Screen {
+	public Level level;
+	
 	public void render(Graphics g) {
-		g.setColor(Color.BLUE);
-		g.fillRect(0, 0, Main.WIDTH/2, Main.HEIGHT/2);
+		for (Entity e : level.entities) {
+			e.render(g);
+		}
 	}
 }
