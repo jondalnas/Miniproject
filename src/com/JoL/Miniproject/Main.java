@@ -11,17 +11,25 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.JoL.Miniproject.graphics.Screen;
+import com.JoL.Miniproject.level.Level;
 import com.JoL.Miniproject.level.LevelLoader;
 
 public class Main extends Canvas implements Runnable {
 	public static int WIDTH = 640, HEIGHT = 480;
 	
 	private Screen screen;
+	private static Level level;
 	
 	public Main() {
 		Dimension size = new Dimension(WIDTH, HEIGHT);
 		 
 		screen = new Screen();
+		
+		setLevel("Shapes");
+		for (Double[][] p : level.levelPolys) {
+			for (Double[] c : p)
+				System.out.println("x" + c[0] + "y" + c[1]);
+		}
 		
 		setSize(size);
 	}
@@ -81,11 +89,14 @@ public class Main extends Canvas implements Runnable {
 			
 			tick();
 			render();
-			LevelLoader.loadFile("Shapes");
 		}
 	}
 	
 	public static double deltaTime() {
 		return deltaTime;
+	}
+	
+	public static void setLevel(String level) {
+		Main.level = LevelLoader.loadFile(level);
 	}
 }

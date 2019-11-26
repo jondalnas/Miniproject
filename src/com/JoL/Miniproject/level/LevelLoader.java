@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public class LevelLoader {
-	public static void loadFile(String level) {
+	public static Level loadFile(String level) {
 		Scanner scan;
 		try {
 			scan = new Scanner(LevelLoader.class.getResource("/lvl/" + level + ".lvl").openStream());
@@ -12,17 +12,26 @@ public class LevelLoader {
 			throw new RuntimeException(e);
 		}
 		
+		Level result = new Level();
+		
 		int polygonCount;
 		String line;
-		while ((line = scan.nextLine()) != null) {
+		while (scan.hasNextLine()) {
+			line = scan.nextLine();
 			polygonCount = Integer.parseInt(line);
-			double[][] poly = new double[polygonCount][2];
+			Double[][] poly = new Double[polygonCount][2];
 			while (polygonCount-- != 0) {
 				String[] cords = scan.nextLine().split(",");
-				poly[polygonCount][0] = Integer.parseInt(cords[0]);
-				poly[polygonCount][1] = Integer.parseInt(cords[1]);
+				poly[polygonCount][0] = Double.parseDouble(cords[0]);
+				poly[polygonCount][1] = Double.parseDouble(cords[1]);
 			}
+			
+			result.levelPolys.add(poly);
 		}
 		
+		
+		
+		scan.close();
+		return result;
 	}
 }
