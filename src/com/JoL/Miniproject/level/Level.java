@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.JoL.Miniproject.Main;
+import com.JoL.Miniproject.colliders.Collider;
 import com.JoL.Miniproject.colliders.Polygon;
 import com.JoL.Miniproject.entities.Camera;
 import com.JoL.Miniproject.entities.Enemy;
@@ -41,6 +42,29 @@ public class Level {
 		for (Entity e : entities) {
 			e.tick();
 		}
+	}
+	
+	public List<Collider> collide(Collider c) {
+		List<Collider> result = new ArrayList<Collider>();
+		
+		for (Entity e : entities) {
+			if (e.collider.collide(c)) result.add(e.collider);
+		}
+		
+		if (level.collide(c)) result.add(level);
+		
+		return result;
+	}
+	
+	public List<Entity> collideEntity(Collider c) {
+		List<Entity> result = new ArrayList<Entity>();
+		
+		for (Entity e : entities) {
+			e.updateCollider();
+			if (e.collider.collide(c)) result.add(e);
+		}
+		
+		return result;
 	}
 	
 	public int addEntity(Entity e, double x, double y) {

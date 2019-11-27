@@ -24,6 +24,10 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener {
 		mousePos[0] = e.getX();
 		mousePos[1] = e.getY();
 	}
+	public void mouseDragged(MouseEvent e) {
+		mousePos[0] = e.getX();
+		mousePos[1] = e.getY();
+	}
 
 	public void mousePressed(MouseEvent e) {
 		int button = e.getButton();
@@ -43,7 +47,6 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener {
 
 	public void keyTyped(KeyEvent e) {}
 	public void mouseClicked(MouseEvent e) {}
-	public void mouseDragged(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
 }

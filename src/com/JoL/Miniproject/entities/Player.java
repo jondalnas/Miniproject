@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 
 import com.JoL.Miniproject.Input;
 import com.JoL.Miniproject.Main;
+import com.JoL.Miniproject.colliders.Line;
 import com.JoL.Miniproject.level.Level;
 
 public class Player extends GravityEntity {
@@ -19,6 +20,8 @@ public class Player extends GravityEntity {
 	private final BufferedImage sword;
 	private final AffineTransform at;
 	private boolean flipSword;
+	private Line swordCollider;
+	private double sliceLength = Math.PI / 2;
 	
 	public Player() {
 		super(new Color(255, 0, 255), 64, 64);
@@ -31,10 +34,12 @@ public class Player extends GravityEntity {
 					  new int[] {12, 12, 0, 4, 12, 12, 16, 16, 24, 28, 16, 16}, 12);
 		
 		at = new AffineTransform();
+		
+		swordCollider = new Line(0, 0, 0, 0);
 	}
 	
 	public void tick() {
-		//Calculate attack
+		//Calculate sword position
 		double swordX = (Input.mousePos[0] - Main.WIDTH / 2) * width;
 		double swordY = (Input.mousePos[1] - Main.HEIGHT / 2) * height;
 
@@ -46,8 +51,20 @@ public class Player extends GravityEntity {
 		else 
 			swordRotation = 0;
 		
+		//Calculate attack
 		if (Input.mouseButtons[1]) {
+			swordCollider.update(Math.cos(swordRotation-sliceLength/2) * (width/2+sword.getWidth()), Math.sin(swordRotation-sliceLength/2) * (width/2+sword.getWidth()),
+								 Math.cos(swordRotation+sliceLength/2) * (width/2+sword.getWidth()), Math.sin(swordRotation+sliceLength/2) * (width/2+sword.getWidth()));
+			swordCollider.x = x;
+			swordCollider.y = y;
 			
+			for (Entity c : level.collideEntity(swordCollider)) {
+				if (c == this) continue;
+				
+				if (c instanceof Enemy) {
+					((Enemy) c).kill();
+				}
+			}
 		}
 		
 		//Calculate position

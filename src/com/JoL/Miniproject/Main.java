@@ -11,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.JoL.Miniproject.Input;
-import com.JoL.Miniproject.entities.Player;
 import com.JoL.Miniproject.graphics.Screen;
 import com.JoL.Miniproject.level.Level;
 

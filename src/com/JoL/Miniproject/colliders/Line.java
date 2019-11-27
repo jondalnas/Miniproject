@@ -109,4 +109,13 @@ public class Line extends Collider {
 	public void recalculateB() {
 		b = (y0 + y) - a * (x0 + x);
 	}
+
+	public void update(double x0, double y0, double x1, double y1) {
+		this.x0 = x0;
+		this.y0 = y0;
+		this.x1 = x1;
+		this.y1 = y1;
+		
+		recalculateLine();
+	}
 }
