@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 import com.JoL.Miniproject.Input;
@@ -19,6 +18,7 @@ public class Player extends GravityEntity {
 	private double swordRotation;
 	private final BufferedImage sword;
 	private final AffineTransform at;
+	private boolean flipSword;
 	
 	public Player() {
 		super(new Color(255, 0, 255), 64, 64);
@@ -38,7 +38,13 @@ public class Player extends GravityEntity {
 		double swordX = (Input.mousePos[0] - Main.WIDTH / 2) * width;
 		double swordY = (Input.mousePos[1] - Main.HEIGHT / 2) * height;
 
-		swordRotation = Math.atan(swordY/swordX) + (swordX < 0 ? Math.PI : 0);
+		flipSword = swordX < 0;
+		if (swordY < 0)
+			swordRotation = Math.atan(swordY/swordX) + (flipSword ? Math.PI : 0);
+		else if (flipSword)
+			swordRotation = Math.PI;
+		else 
+			swordRotation = 0;
 		
 		if (Input.mouseButtons[1]) {
 			
@@ -62,7 +68,7 @@ public class Player extends GravityEntity {
 
 		at.setToRotation(swordRotation , Main.WIDTH/2, Main.HEIGHT/2);
 		((Graphics2D) g).setTransform(at);
-		g.drawImage(sword, Main.WIDTH/2, Main.HEIGHT/2, null);
+		g.drawImage(sword, Main.WIDTH/2, Main.HEIGHT/2+(flipSword ? -sword.getHeight() : 0), null);
 		at.setToRotation(0);
 		((Graphics2D) g).setTransform(at);
 	}
