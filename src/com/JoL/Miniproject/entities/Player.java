@@ -6,6 +6,9 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Area;
 
 import com.JoL.Miniproject.Input;
 import com.JoL.Miniproject.Main;
@@ -24,6 +27,10 @@ public class Player extends GravityEntity {
 	private Line swordColliderClose;
 	private double sliceLength = Math.PI / 4;
 	public final double maxR, minR;
+	private final BufferedImage arc;
+	private double swingAnimation;
+	private double swingAnimationTime = 0.05;
+	private double swingStartAngle;
 	
 	public Player() {
 		super(new Color(255, 0, 255), 64, 64);
@@ -42,6 +49,15 @@ public class Player extends GravityEntity {
 		
 		maxR = width/2+sword.getWidth();
 		minR = width/2+sword.getWidth()/2;
+		
+		arc = new BufferedImage((int) maxR, (int) maxR, BufferedImage.TYPE_INT_ARGB);
+		Graphics arcG = arc.getGraphics();
+		arcG.setColor(new Color(0xdfdfdf));
+		Arc2D arc = new Arc2D.Double(-maxR*1.6/2, -maxR*1.6/2, maxR*1.6, maxR*1.6, 0, -Math.toDegrees(sliceLength*1.5), Arc2D.PIE);
+		Ellipse2D el = new Ellipse2D.Double(-maxR*1.4/2, -maxR*1.4/2, maxR*1.4, maxR*1.4);
+		Area a = new Area(arc);
+		a.subtract(new Area(el));
+		((Graphics2D) arcG).fill(a);
 	}
 	
 	public void tick() {
@@ -58,7 +74,8 @@ public class Player extends GravityEntity {
 			swordRotation = 0;
 		
 		//Calculate attack
-		if (Input.mouseButtons[1]) {
+		if (swingAnimation > 0) swingAnimation -= Main.deltaTime();
+		else if (Input.mouseButtons[1]) {
 			double cosMin = Math.cos(swordRotation-sliceLength/2);
 			double sinMin = Math.sin(swordRotation-sliceLength/2);
 			double cosMax = Math.cos(swordRotation+sliceLength/2);
@@ -89,6 +106,8 @@ public class Player extends GravityEntity {
 				if (c instanceof Enemy) ((Enemy) c).kill();
 			}
 
+			swingStartAngle = swordRotation;
+			swingAnimation = swingAnimationTime;
 			Input.mouseButtons[1] = false;
 		}
 		
@@ -108,9 +127,22 @@ public class Player extends GravityEntity {
 		g.setColor(entityColor);
 		g.fillRect(Main.WIDTH/2 - (int) width/2, Main.HEIGHT/2 - (int) height/2, (int) width, (int) height);
 
-		at.setToRotation(swordRotation , Main.WIDTH/2, Main.HEIGHT/2);
-		((Graphics2D) g).setTransform(at);
-		g.drawImage(sword, Main.WIDTH/2, Main.HEIGHT/2+(flipSword ? -sword.getHeight() : 0), null);
+		if (swingAnimation > 0) {
+			//TODO: Maybe use this one: at.setToRotation(swingStartAngle - (sliceLength * (1 - swingAnimation / swingAnimationTime)) * (flipSword ? -1 : 1), Main.WIDTH/2, Main.HEIGHT/2);
+			at.rotate(swingStartAngle - sliceLength * (flipSword ? -1 : 1), Main.WIDTH/2, Main.HEIGHT/2);
+			((Graphics2D) g).setTransform(at);
+			g.drawImage(sword, Main.WIDTH/2, Main.HEIGHT/2 + (flipSword ? -sword.getHeight() : 0), null);
+
+			at.setToRotation(swingStartAngle-sliceLength/2*(flipSword ? 1 : 2), Main.WIDTH/2, Main.HEIGHT/2);
+			((Graphics2D) g).setTransform(at);
+			//TODO: Add more animation to the arc
+			g.drawImage(arc, Main.WIDTH/2, Main.HEIGHT/2, null);
+		} else {
+			at.setToRotation(swordRotation, Main.WIDTH/2, Main.HEIGHT/2);
+			((Graphics2D) g).setTransform(at);
+			g.drawImage(sword, Main.WIDTH/2, Main.HEIGHT/2 + (flipSword ? -sword.getHeight() : 0), null);
+		}
+		
 		at.setToRotation(0);
 		((Graphics2D) g).setTransform(at);
 	}

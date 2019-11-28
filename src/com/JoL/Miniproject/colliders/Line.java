@@ -58,8 +58,6 @@ public class Line extends Collider {
 				//(b-b_line)/(a_line-a)=x
 				double x = (b-line.getB())/(line.getA()-a);
 				
-				System.out.println((x0 + this.x) + ", " + (x1 + this.x) + ", " + (line.x0 + line.x) + ", " + (line.x1 + line.x));
-				
 				if (x > x0 + this.x && x < x1 + this.x && x > line.x0 + line.x && x < line.x1 + line.x) return true;
 			}
 		} else if (c instanceof Polygon) {
