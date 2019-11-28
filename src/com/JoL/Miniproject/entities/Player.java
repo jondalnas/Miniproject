@@ -21,21 +21,27 @@ public class Player extends GravityEntity {
 	private final AffineTransform at;
 	private boolean flipSword;
 	private Line swordCollider;
-	private double sliceLength = Math.PI / 2;
+	private Line swordColliderClose;
+	private double sliceLength = Math.PI / 4;
+	public final double maxR, minR;
 	
 	public Player() {
 		super(new Color(255, 0, 255), 64, 64);
 		
-		sword = new BufferedImage(64, 28, BufferedImage.TYPE_INT_ARGB);
+		sword = new BufferedImage(128, 28, BufferedImage.TYPE_INT_ARGB);
 		Graphics swordG = sword.getGraphics();
 		swordG.setColor(Color.GRAY);
 		
-		swordG.fillPolygon(new int[] {0, 12, 12, 16, 16, 64, 60, 16, 16, 12, 12, 0},
+		swordG.fillPolygon(new int[] {0, 12, 12, 16, 16, 128, 124, 16, 16, 12, 12, 0},
 					  new int[] {12, 12, 0, 4, 12, 12, 16, 16, 24, 28, 16, 16}, 12);
 		
 		at = new AffineTransform();
-		
+
 		swordCollider = new Line(0, 0, 0, 0);
+		swordColliderClose = new Line(0, 0, 0, 0);
+		
+		maxR = width/2+sword.getWidth();
+		minR = width/2+sword.getWidth()/2;
 	}
 	
 	public void tick() {
@@ -53,10 +59,21 @@ public class Player extends GravityEntity {
 		
 		//Calculate attack
 		if (Input.mouseButtons[1]) {
-			swordCollider.update(Math.cos(swordRotation-sliceLength/2) * (width/2+sword.getWidth()), Math.sin(swordRotation-sliceLength/2) * (width/2+sword.getWidth()),
-								 Math.cos(swordRotation+sliceLength/2) * (width/2+sword.getWidth()), Math.sin(swordRotation+sliceLength/2) * (width/2+sword.getWidth()));
-			swordCollider.x = x;
-			swordCollider.y = y;
+			double cosMin = Math.cos(swordRotation-sliceLength/2);
+			double sinMin = Math.sin(swordRotation-sliceLength/2);
+			double cosMax = Math.cos(swordRotation+sliceLength/2);
+			double sinMax = Math.sin(swordRotation+sliceLength/2);
+			
+			swordCollider.update(cosMin * maxR, sinMin * maxR,
+								 cosMax * maxR, sinMax * maxR);
+			swordCollider.x = x + width/2;
+			swordCollider.y = y + height/2;
+			
+
+			swordColliderClose.update(cosMin * minR, sinMin * minR,
+									  cosMax * minR, sinMax * minR);
+			swordColliderClose.x = x + width/2;
+			swordColliderClose.y = y + height/2;
 			
 			for (Entity c : level.collideEntity(swordCollider)) {
 				if (c == this) continue;
@@ -65,6 +82,14 @@ public class Player extends GravityEntity {
 					((Enemy) c).kill();
 				}
 			}
+			
+			for (Entity c : level.collideEntity(swordColliderClose)) {
+				if (c == this) continue;
+				
+				if (c instanceof Enemy) ((Enemy) c).kill();
+			}
+
+			Input.mouseButtons[1] = false;
 		}
 		
 		//Calculate position
