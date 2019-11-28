@@ -33,7 +33,7 @@ public class Player extends GravityEntity {
 		swordG.setColor(Color.GRAY);
 		
 		swordG.fillPolygon(new int[] {0, 12, 12, 16, 16, 128, 124, 16, 16, 12, 12, 0},
-					  new int[] {12, 12, 0, 4, 12, 12, 16, 16, 24, 28, 16, 16}, 12);
+						   new int[] {12, 12, 0, 4, 12, 12, 16, 16, 24, 28, 16, 16}, 12);
 		
 		at = new AffineTransform();
 
@@ -63,17 +63,17 @@ public class Player extends GravityEntity {
 			double sinMin = Math.sin(swordRotation-sliceLength/2);
 			double cosMax = Math.cos(swordRotation+sliceLength/2);
 			double sinMax = Math.sin(swordRotation+sliceLength/2);
-			
-			swordCollider.update(cosMin * maxR, sinMin * maxR,
-								 cosMax * maxR, sinMax * maxR);
+
 			swordCollider.x = x + width/2;
 			swordCollider.y = y + height/2;
+			swordCollider.update(cosMin * maxR, sinMin * maxR,
+								 cosMax * maxR, sinMax * maxR);
 			
 
-			swordColliderClose.update(cosMin * minR, sinMin * minR,
-									  cosMax * minR, sinMax * minR);
 			swordColliderClose.x = x + width/2;
 			swordColliderClose.y = y + height/2;
+			swordColliderClose.update(cosMin * minR, sinMin * minR,
+									  cosMax * minR, sinMax * minR);
 			
 			for (Entity c : level.collideEntity(swordCollider)) {
 				if (c == this) continue;
