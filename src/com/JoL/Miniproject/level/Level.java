@@ -9,10 +9,11 @@ import com.JoL.Miniproject.colliders.Polygon;
 import com.JoL.Miniproject.entities.Camera;
 import com.JoL.Miniproject.entities.Enemy;
 import com.JoL.Miniproject.entities.Entity;
+import com.JoL.Miniproject.entities.GunEnemy;
 import com.JoL.Miniproject.entities.Player;
 
 public class Level {
-	public static double GRAVITY = 9.82 * 64; //64 pixels is one meter
+	public static double GRAVITY = 9.82 * 192; //128 pixels is one meter
 	
 	public static Camera camera;
 	public List<Entity> entities = new ArrayList<Entity>();
@@ -25,7 +26,7 @@ public class Level {
 
 		player = new Player();
 		addEntity(player, 0, 0);
-		addEntity(new Enemy(player), 640, -256-128+Main.HEIGHT-64);
+		addEntity(new GunEnemy(player), 640, -256-128+Main.HEIGHT-64);
 
 		level = new Polygon(new double[][] {new double[]{0, 0},
 			  new double[]{640, -256},

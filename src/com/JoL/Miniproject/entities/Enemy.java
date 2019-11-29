@@ -7,7 +7,7 @@ public class Enemy extends GravityEntity {
 	
 	public double speed = 128;
 	
-	private boolean dead;
+	protected boolean dead;
 	
 	public Enemy(Player player) {
 		super(Color.RED, 64, 64);

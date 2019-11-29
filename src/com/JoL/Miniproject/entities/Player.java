@@ -16,8 +16,8 @@ import com.JoL.Miniproject.colliders.Line;
 import com.JoL.Miniproject.level.Level;
 
 public class Player extends GravityEntity {
-	private double speed = 256;
-	private double jumpSpeed = 512;
+	private double speed = 512;
+	private double jumpSpeed = 1024;
 	
 	private double swordRotation;
 	private final BufferedImage sword;
