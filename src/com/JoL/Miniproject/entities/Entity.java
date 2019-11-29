@@ -34,8 +34,8 @@ public class Entity {
 	}
 	
 	protected void move() {
-		if (!move(0, dy)) dy = 0;
 		if (!move(dx, 0)) dx = 0;
+		if (!move(0, dy)) dy = 0;
 	}
 	
 	private boolean move(double dx, double dy) {
@@ -79,7 +79,7 @@ public class Entity {
 				y += ddy;
 				
 				if (i == 1) {
-					if (dy != 0) grounded = false;
+					if (dy < 0) grounded = false;
 					return true;
 				}
 				

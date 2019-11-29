@@ -66,7 +66,7 @@ public class Player extends GravityEntity {
 		double swordY = (Input.mousePos[1] - Main.HEIGHT / 2) * height;
 
 		flipSword = swordX < 0;
-		if (swordY < 0)
+		if (swordY < 0 || !grounded)
 			swordRotation = Math.atan(swordY/swordX) + (flipSword ? Math.PI : 0);
 		else if (flipSword)
 			swordRotation = Math.PI;
