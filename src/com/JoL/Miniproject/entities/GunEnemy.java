@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+import com.JoL.Miniproject.Main;
+import com.JoL.Miniproject.colliders.Line;
 import com.JoL.Miniproject.level.Level;
 
 public class GunEnemy extends Enemy {
@@ -14,6 +16,9 @@ public class GunEnemy extends Enemy {
 	private static final AffineTransform at = new AffineTransform();
 	private double gunRotation;
 	private boolean flip;
+	private double shoot;
+	private double shootTime = 5;
+	private final Line targetLine = new Line(0,0,0,0);
 	
 	public GunEnemy(Player player) {
 		super(player);
@@ -44,6 +49,29 @@ public class GunEnemy extends Enemy {
 		flip = dx < 0;
 		
 		gunRotation = Math.atan(dy/dx);
+		
+		shoot -= Main.deltaTime();
+		if (shoot < 0) {
+			//Check if enemy can hit player
+			boolean hit = true;
+			for (Entity e : level.collideEntity(targetLine)) {
+				if (e == this || e == target) continue;
+				
+				hit = false;
+				break;
+			}
+			
+			if (hit && level.level.collide(targetLine))
+				hit = false;
+			
+			if (hit) {
+				double d = Math.sqrt(dx*dx+dy*dy);
+				
+				level.addEntity(new Bullet(dx/d*1024, dy/d*1024, this), x + width/2, y + height/2);
+				
+				shoot = shootTime;
+			}
+		}
 	}
 	
 	public void render(Graphics g) {

@@ -32,6 +32,8 @@ public class Player extends GravityEntity {
 	private double swingAnimationTime = 0.05;
 	private double swingStartAngle;
 	
+	private boolean dead = false;
+	
 	public Player() {
 		super(new Color(255, 0, 255), 64, 64);
 		
@@ -61,6 +63,12 @@ public class Player extends GravityEntity {
 	}
 	
 	public void tick() {
+		super.tick();
+		Level.camera.x = x - Main.WIDTH/2 + 64/2;
+		Level.camera.y = y - Main.HEIGHT/2 + 64/2;
+		
+		if (dead) return;
+		
 		//Calculate sword position
 		double swordX = (Input.mousePos[0] - Main.WIDTH / 2) * width;
 		double swordY = (Input.mousePos[1] - Main.HEIGHT / 2) * height;
@@ -117,10 +125,6 @@ public class Player extends GravityEntity {
 		if (Input.keys[KeyEvent.VK_A]) dx -= speed;
 		
 		if (grounded && Input.keys[KeyEvent.VK_SPACE]) dy = -jumpSpeed;
-		
-		super.tick();
-		Level.camera.x = x - Main.WIDTH/2 + 64/2;
-		Level.camera.y = y - Main.HEIGHT/2 + 64/2;
 	}
 	
 	public void render(Graphics g) {
@@ -145,5 +149,9 @@ public class Player extends GravityEntity {
 		
 		at.setToRotation(0);
 		((Graphics2D) g).setTransform(at);
+	}
+
+	public void kill() {
+		dead = true;
 	}
 }

@@ -15,13 +15,13 @@ public class Enemy extends GravityEntity {
 	}
 	
 	public void tick() {
+		super.tick();
+		
 		if (dead) return;
 		
 		if (target.x + 64 < x) dx = -speed;
 		else if (target.x > x + 64) dx = speed;
 		else dx = 0;
-		
-		super.tick();
 	}
 
 	public void kill() {

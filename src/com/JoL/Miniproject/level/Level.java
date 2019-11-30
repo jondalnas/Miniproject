@@ -17,6 +17,8 @@ public class Level {
 	
 	public static Camera camera;
 	public List<Entity> entities = new ArrayList<Entity>();
+	private List<Entity> addingEntities = new ArrayList<Entity>();
+	private List<Integer> removingEntities = new ArrayList<Integer>();
 	private Player player;
 	
 	public Polygon level;
@@ -38,6 +40,8 @@ public class Level {
 	}
 	
 	public void tick() {
+		updateEntities();
+		
 		camera.tick();
 		
 		for (Entity e : entities) {
@@ -69,11 +73,28 @@ public class Level {
 	}
 	
 	public int addEntity(Entity e, double x, double y) {
-		entities.add(e);
-		e.level = this;
+		addingEntities.add(e);
 		e.x = x;
 		e.y = y;
+		e.level = this;
 		
-		return entities.size() - 1;
+		return addingEntities.size() + entities.size() - 2;
+	}
+	
+	public void removeEntity(Entity e) {
+		for (int i = 0; i < entities.size(); i++) {
+			if (entities.get(i) == e) removingEntities.add(i);
+		}
+	}
+	
+	private void updateEntities() {
+		for (int i : removingEntities) {
+			entities.remove(i);
+		}
+		
+		for (Entity e : addingEntities) entities.add(e);
+		
+		removingEntities.clear();
+		addingEntities.clear();
 	}
 }
