@@ -5,23 +5,7 @@ public class Line extends Collider {
 	private double a, b;
 	
 	public Line(double x0, double y0, double x1, double y1) {
-		if (x0 < x1) {
-			this.x0 = x0;
-			this.x1 = x1;
-		} else {
-			this.x0 = x1;
-			this.x1 = x0;
-		}
-		
-		if (y0 < y1) {
-			this.y0 = y0;
-			this.y1 = y1;
-		} else {
-			this.y0 = y1;
-			this.y1 = y0;
-		}
-		
-		recalculateLine();
+		update(x0, y0, x1, y1);
 	}
 	
 	public boolean collide(Collider c) {
@@ -36,7 +20,7 @@ public class Line extends Collider {
 			//If a is Infinity, then the line is straight up and down
 			if (a == Double.POSITIVE_INFINITY) {
 				if (line.getA() == Double.POSITIVE_INFINITY) {
-					if (x0 != line.x0) return false;
+					if (x0 + x != line.x0 + line.x) return false;
 					
 					if (y0 + y < line.y1 + line.y && y1 + y > line.y0 + line.y) return true;
 					
@@ -74,7 +58,7 @@ public class Line extends Collider {
 				//(b-b_line)/(a_line-a)=x
 				double x = (b-line.getB())/(line.getA()-a);
 				
-				if (x > x0 + x && x < x1 + x) return true;
+				if (x > x0 + this.x && x < x1 + this.x && x > line.x0 + line.x && x < line.x1 + line.x) return true;
 			}
 		} else if (c instanceof Polygon) {
 			return c.collide(this);
@@ -92,7 +76,7 @@ public class Line extends Collider {
 	}
 	
 	public void recalculateLine() {
-		a = (y0 - y1) / (x0 - x1);
+		a = ((y0) - (y1)) / (x0 - x1);
 		
 		if (a == Double.NEGATIVE_INFINITY) a = -a;
 		
@@ -101,5 +85,32 @@ public class Line extends Collider {
 	
 	public void recalculateB() {
 		b = (y0 + y) - a * (x0 + x);
+	}
+
+	public void update(double x0, double y0, double x1, double y1) {
+		if (x0 == x1) {
+			 this.x0 = x0;
+			 this.x1 = x1;
+			 
+			 if (y0 > y1) {
+				 this.y0 = y1;
+				 this.y1 = y0;
+			 } else {
+				 this.y0 = y0;
+				 this.y1 = y1;
+			 }
+		} else if (x0 > x1) {
+			this.x0 = x1;
+			this.x1 = x0;
+			this.y0 = y1;
+			this.y1 = y0;
+		} else {
+			this.x0 = x0;
+			this.x1 = x1;
+			this.y0 = y0;
+			this.y1 = y1;
+		}
+		
+		recalculateLine();
 	}
 }

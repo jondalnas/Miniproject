@@ -10,6 +10,7 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.JoL.Miniproject.Input;
 import com.JoL.Miniproject.graphics.Screen;
 import com.JoL.Miniproject.level.Level;
 import com.JoL.Miniproject.level.LevelLoader;
@@ -20,18 +21,22 @@ public class Main extends Canvas implements Runnable {
 
 	public static int WIDTH = 640, HEIGHT = 480;
 	
-	private Screen screen;
+	private int targetFPS = 60;
+	
+	private static Screen screen;
 	private static Level level;
-
+	private Input input;
 	
 	public Main() {
 		Dimension size = new Dimension(WIDTH, HEIGHT);
 		 
-		level = new Level();
 		screen = new Screen();
-		screen.level = level;
-		
 		setLevel("Shapes");
+		
+		input = new Input();
+		addKeyListener(input);
+		addMouseListener(input);
+		addMouseMotionListener(input);
 		
 		setSize(size);
 	}
@@ -41,6 +46,7 @@ public class Main extends Canvas implements Runnable {
 	}
 	
 	public static void main(String[] args) {
+		System.setProperty("sun.java2d.opengl", "true");
 		Main main = new Main();
 
 		JFrame frame = new JFrame("Hello");
@@ -88,7 +94,17 @@ public class Main extends Canvas implements Runnable {
 		long lastTick = System.nanoTime();
 		int frames = 0;
 		long lastSec = System.nanoTime();
+		
+		long timeBetweenFrames = ((long) 1e9)/targetFPS;
+		
 		while (true) {
+			try {
+				long sleepTime = (long) ((timeBetweenFrames - (System.nanoTime() - lastTick))*1e-6);
+				if (sleepTime > 0) Thread.sleep(sleepTime);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
 			deltaTime = (System.nanoTime() - lastTick) * 1.0e-9;
 			lastTick = System.nanoTime();
 			
@@ -102,6 +118,7 @@ public class Main extends Canvas implements Runnable {
 			}
 			
 			tick();
+			
 			render();
 		}
 	}
@@ -112,5 +129,6 @@ public class Main extends Canvas implements Runnable {
 	
 	public static void setLevel(String level) {
 		Main.level = LevelLoader.loadFile(level);
+		screen.level = Main.level;
 	}
 }

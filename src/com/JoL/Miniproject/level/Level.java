@@ -3,34 +3,36 @@ package com.JoL.Miniproject.level;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.JoL.Miniproject.Main;
+import com.JoL.Miniproject.colliders.Collider;
+import com.JoL.Miniproject.colliders.Line;
+import com.JoL.Miniproject.colliders.Polygon;
 import com.JoL.Miniproject.entities.Camera;
 import com.JoL.Miniproject.entities.Entity;
-import com.JoL.Miniproject.entities.GravityEntity;
-import com.JoL.Miniproject.colliders.Polygon;
+import com.JoL.Miniproject.entities.GunEnemy;
+import com.JoL.Miniproject.entities.Player;
 
 public class Level {
-	public static double GRAVITY = 9.82 * 64; //64 pixels is one meter
+	public static double GRAVITY = 9.82 * 192; //192 pixels is one meter
 	public List<Polygon> levelPolys = new ArrayList<Polygon>();
 	
-	public Camera camera;
+	public static Camera camera;
 	public List<Entity> entities = new ArrayList<Entity>();
+	private List<Entity> addingEntities = new ArrayList<Entity>();
+	private List<Integer> removingEntities = new ArrayList<Integer>();
+	private Player player;
 	
 	public Level() {
 		camera = new Camera();
 
-		int g = addEntity(new GravityEntity(Color.blue, 64, 64));
-		int e = addEntity(new Entity(Color.red, Main.WIDTH/2, 64*4));
-		entities.get(e).y = 480-64*4;
-		entities.get(g).dx = 64;
+		player = new Player();
+		addEntity(player, 0, 0);
+		addEntity(new GunEnemy(player), 640, -256-128+Main.HEIGHT-64);
 	}
 	
 	public void tick() {
+		updateEntities();
+		
 		camera.tick();
 		
 		for (Entity e : entities) {
@@ -38,9 +40,62 @@ public class Level {
 		}
 	}
 	
-	public int addEntity(Entity e) {
-		entities.add(e);
+	public List<Collider> collide(Collider c) {
+		List<Collider> result = new ArrayList<Collider>();
+		
+		for (Entity e : entities) {
+			if (e.collider.collide(c)) result.add(e.collider);
+		}
+		
+		for (Polygon p : levelPolys) {
+			if (p.collide(c)) result.add(p);
+		}
+		
+		return result;
+	}
+	
+	public List<Entity> collideEntity(Collider c) {
+		List<Entity> result = new ArrayList<Entity>();
+		
+		for (Entity e : entities) {
+			e.updateCollider();
+			if (e.collider.collide(c)) result.add(e);
+		}
+		
+		return result;
+	}
+	
+	public int addEntity(Entity e, double x, double y) {
+		addingEntities.add(e);
+		e.x = x;
+		e.y = y;
 		e.level = this;
-		return entities.size() - 1;
+		
+		return addingEntities.size() + entities.size() - 2;
+	}
+	
+	public void removeEntity(Entity e) {
+		for (int i = 0; i < entities.size(); i++) {
+			if (entities.get(i) == e) removingEntities.add(i);
+		}
+	}
+	
+	private void updateEntities() {
+		for (int i : removingEntities) {
+			entities.remove(i);
+		}
+		
+		for (Entity e : addingEntities) entities.add(e);
+		
+		removingEntities.clear();
+		addingEntities.clear();
+	}
+
+	public boolean collideLevel(Collider c) {
+		for (Polygon p : levelPolys) {
+			if (p.collide(c)) return true;
+		}
+		
+		return false;
 	}
 }
