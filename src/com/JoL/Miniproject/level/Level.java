@@ -12,10 +12,11 @@ import com.JoL.Miniproject.Main;
 import com.JoL.Miniproject.entities.Camera;
 import com.JoL.Miniproject.entities.Entity;
 import com.JoL.Miniproject.entities.GravityEntity;
+import com.JoL.Miniproject.colliders.Polygon;
 
 public class Level {
 	public static double GRAVITY = 9.82 * 64; //64 pixels is one meter
-	public List<Double[][]> levelPolys = new ArrayList<Double[][]>();
+	public List<Polygon> levelPolys = new ArrayList<Polygon>();
 	
 	public Camera camera;
 	public List<Entity> entities = new ArrayList<Entity>();

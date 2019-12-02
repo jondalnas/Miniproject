@@ -32,10 +32,6 @@ public class Main extends Canvas implements Runnable {
 		screen.level = level;
 		
 		setLevel("Shapes");
-		for (Double[][] p : level.levelPolys) {
-			for (Double[] c : p)
-				System.out.println("x" + c[0] + "y" + c[1]);
-		}
 		
 		setSize(size);
 	}

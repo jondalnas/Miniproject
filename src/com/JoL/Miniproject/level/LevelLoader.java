@@ -3,6 +3,8 @@ package com.JoL.Miniproject.level;
 import java.io.*;
 import java.util.Scanner;
 
+import com.JoL.Miniproject.colliders.Polygon;
+
 public class LevelLoader {
 	public static Level loadFile(String level) {
 		Scanner scan;
@@ -19,14 +21,14 @@ public class LevelLoader {
 		while (scan.hasNextLine()) {
 			line = scan.nextLine();
 			polygonCount = Integer.parseInt(line);
-			Double[][] poly = new Double[polygonCount][2];
+			double[][] poly = new double[polygonCount][2];
 			while (polygonCount-- != 0) {
 				String[] cords = scan.nextLine().split(",");
 				poly[polygonCount][0] = Double.parseDouble(cords[0]);
 				poly[polygonCount][1] = Double.parseDouble(cords[1]);
 			}
 			
-			result.levelPolys.add(poly);
+			result.levelPolys.add(new Polygon(poly));
 		}
 		
 		
