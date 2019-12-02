@@ -1,6 +1,7 @@
 package com.JoL.Miniproject.level;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.JoL.Miniproject.Main;
@@ -82,15 +83,19 @@ public class Level {
 	}
 	
 	public void removeEntity(Entity e) {
+		
 		for (int i = 0; i < entities.size(); i++) {
-			if (entities.get(i) == e) removingEntities.add(i);
+			if (entities.get(i) == e && !removingEntities.contains(i)) removingEntities.add(i);
 		}
 	}
 	
 	private void updateEntities() {
+		Collections.sort(removingEntities);
+		
 		for (int i : removingEntities) {
 			entities.remove(i);
 		}
+		removingEntities.clear();
 		
 		for (Entity e : addingEntities) entities.add(e);
 		

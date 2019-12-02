@@ -31,15 +31,20 @@ public class Bullet extends Entity {
 				hit = true;
 				
 				if (e instanceof Player) {
-					level.removeEntity(this);
 					((Player) e).kill();
+				} else if (e instanceof Enemy) {
+					((Enemy) e).kill();
 				}
 			}
 		}
 		
+		if (level.level.collide(col)) hit = true;
+		
 		if (!hit) {
 			x += dx;
 			y += dy;
+		} else {
+			level.removeEntity(this);
 		}
 	}
 }
