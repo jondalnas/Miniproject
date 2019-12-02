@@ -2,6 +2,7 @@ package com.JoL.Miniproject.graphics;
 
 import java.awt.Graphics;
 
+import com.JoL.Miniproject.colliders.Polygon;
 import com.JoL.Miniproject.entities.Entity;
 import com.JoL.Miniproject.level.Level;
 
@@ -12,7 +13,9 @@ public class Screen {
 		for (Entity e : level.entities) {
 			e.render(g);
 		}
-		
-		level.level.render(g);
+
+		for (Polygon p : level.levelPolys) {
+			p.render(g);
+		}
 	}
 }

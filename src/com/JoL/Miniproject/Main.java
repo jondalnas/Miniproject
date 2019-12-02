@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import com.JoL.Miniproject.Input;
 import com.JoL.Miniproject.graphics.Screen;
 import com.JoL.Miniproject.level.Level;
+import com.JoL.Miniproject.level.LevelLoader;
+
 
 public class Main extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
@@ -21,16 +23,15 @@ public class Main extends Canvas implements Runnable {
 	
 	private int targetFPS = 60;
 	
-	private Screen screen;
-	private Level level;
+	private static Screen screen;
+	private static Level level;
 	private Input input;
 	
 	public Main() {
 		Dimension size = new Dimension(WIDTH, HEIGHT);
 		 
-		level = new Level();
 		screen = new Screen();
-		screen.level = level;
+		setLevel("Shapes");
 		
 		input = new Input();
 		addKeyListener(input);
@@ -124,5 +125,10 @@ public class Main extends Canvas implements Runnable {
 	
 	public static double deltaTime() {
 		return deltaTime;
+	}
+	
+	public static void setLevel(String level) {
+		Main.level = LevelLoader.loadFile(level);
+		screen.level = Main.level;
 	}
 }

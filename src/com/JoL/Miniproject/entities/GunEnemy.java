@@ -62,7 +62,7 @@ public class GunEnemy extends Enemy {
 				break;
 			}
 			
-			if (hit && level.level.collide(targetLine))
+			if (hit && level.collideLevel(targetLine))
 				hit = false;
 			
 			if (hit) {

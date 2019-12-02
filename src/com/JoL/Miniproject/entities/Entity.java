@@ -50,7 +50,7 @@ public class Entity {
 			colliders.add(e.collider);
 		}
 		
-		colliders.add(level.level);
+		colliders.addAll(level.levelPolys);
 		
 		//Loop through all distance percents backwards, and check if it collides with 
 		for (double i = 1; i > 0; i -= 0.01) {

@@ -13,8 +13,8 @@ public class Polygon extends Collider {
 	public int[] yp;
 	
 	public Polygon(double[][] points) {
-		xp = new int[points.length + 1];
-		yp = new int[points.length + 1];
+		xp = new int[points.length];
+		yp = new int[points.length];
 		
 		for (int i = 0; i < points.length; i++) {
 			xp[i] = (int) points[i][0];
