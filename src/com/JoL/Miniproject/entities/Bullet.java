@@ -8,6 +8,7 @@ import com.JoL.Miniproject.colliders.Line;
 public class Bullet extends Entity {
 	private double xv, yv;
 	private final Line col = new Line(0,0,0,0);
+	private double alive, aliveTime = 2.5;
 	private final Entity owner;
 
 	public Bullet(double xv, double yv, Entity owner) {
@@ -20,6 +21,13 @@ public class Bullet extends Entity {
 	}
 
 	public void tick() {
+		alive += Main.deltaTime();
+		
+		if (alive > aliveTime) {
+			level.removeEntity(this);
+			return;
+		}
+		
 		double dx = xv * Main.deltaTime();
 		double dy = yv * Main.deltaTime();
 		
@@ -27,7 +35,7 @@ public class Bullet extends Entity {
 		
 		boolean hit = false;
 		for (Entity e : level.collideEntity(col)) {
-			if (e != owner) {
+			if (e != owner && e != this) {
 				hit = true;
 				
 				if (e instanceof Player) {
@@ -38,7 +46,7 @@ public class Bullet extends Entity {
 			}
 		}
 		
-		if (level.level.collide(col)) hit = true;
+		if (level.collideLevel(col)) hit = true;
 		
 		if (!hit) {
 			x += dx;

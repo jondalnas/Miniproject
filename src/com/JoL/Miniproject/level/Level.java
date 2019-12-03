@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.JoL.Miniproject.Main;
 import com.JoL.Miniproject.colliders.Collider;
-import com.JoL.Miniproject.colliders.Line;
 import com.JoL.Miniproject.colliders.Polygon;
 import com.JoL.Miniproject.entities.Camera;
 import com.JoL.Miniproject.entities.Entity;
@@ -27,7 +26,7 @@ public class Level {
 		camera = new Camera();
 
 		player = new Player();
-		addEntity(player, 0, 0);
+		addEntity(player, 10, 10);
 		addEntity(new GunEnemy(player), 640, -256-128+Main.HEIGHT-64);
 	}
 	
