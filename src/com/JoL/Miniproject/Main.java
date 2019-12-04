@@ -31,7 +31,7 @@ public class Main extends Canvas implements Runnable {
 		Dimension size = new Dimension(WIDTH, HEIGHT);
 		 
 		screen = new Screen();
-		setLevel("Shapes");
+		setLevel("HI");
 		
 		input = new Input();
 		addKeyListener(input);

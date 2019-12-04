@@ -63,7 +63,12 @@ public class Player extends GravityEntity {
 	}
 	
 	public void tick() {
-		super.tick();
+
+		if (Input.keys[KeyEvent.VK_D]) x += speed * Main.deltaTime();
+		if (Input.keys[KeyEvent.VK_A]) x -= speed * Main.deltaTime();
+		if (Input.keys[KeyEvent.VK_W]) y -= speed * Main.deltaTime();
+		if (Input.keys[KeyEvent.VK_S]) y += speed * Main.deltaTime();
+		
 		Level.camera.x = x - Main.WIDTH/2 + 64/2;
 		Level.camera.y = y - Main.HEIGHT/2 + 64/2;
 		

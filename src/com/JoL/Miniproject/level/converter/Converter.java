@@ -19,7 +19,7 @@ public class Converter {
 	
 
 	public static void main(String[] args) {
-		convert("/level.svg", "HI");
+		convert("/level.svg", "res/lvl/HI.lvl");
 	}
 	
 	public static void convert(String from, String to) {
@@ -77,11 +77,11 @@ public class Converter {
 							break;
 						}
 						case 'v': {
-							currCord[0] = Double.parseDouble(numbers) * MM_TO_PIXEL;
+							currCord[1] = Double.parseDouble(numbers) * MM_TO_PIXEL;
 							break;
 						}
 						case 'h': {
-							currCord[1] = Double.parseDouble(numbers) * MM_TO_PIXEL;
+							currCord[0] = Double.parseDouble(numbers) * MM_TO_PIXEL;
 							break;
 						}
 						}
@@ -98,16 +98,20 @@ public class Converter {
 			if (line.contains("<path")) inPath = true;
 		}
 
-		for (double[][] poly : polygons) {
-			try {
-				Files.write(Paths.get(LevelLoader.class.getResource(to).toURI()), (poly.length+"").getBytes(), StandardOpenOption.APPEND);
-				for (double[] coord : poly) {
-					//TODO: Do something else
-					Files.write(Paths.get(LevelLoader.class.getResource(to).toURI()), (poly.length+"").getBytes(), StandardOpenOption.APPEND);
-				}
-			} catch (IOException | URISyntaxException e) {
-				e.printStackTrace();
+		try {
+			File toFile = new File(to);
+			if (!toFile.exists()) {
+				toFile.createNewFile();
 			}
+			
+			for (double[][] poly : polygons) {
+				Files.write(Paths.get(to), (poly.length+"\n").getBytes(), StandardOpenOption.APPEND);
+				for (double[] coord : poly) {
+					Files.write(Paths.get(to), (coord[0]+","+(coord[1]-1122.5197071362147)+"\n").getBytes(), StandardOpenOption.APPEND);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }
