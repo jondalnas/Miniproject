@@ -2,11 +2,17 @@ package com.JoL.Miniproject.level.converter;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.OpenOption;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.JoL.Miniproject.level.LevelLoader;
+import com.sun.xml.internal.bind.api.impl.NameConverter.Standard;
 
 public class Converter {
 	private static final double MM_TO_PIXEL = 64/16.933333;
@@ -28,17 +34,17 @@ public class Converter {
 		
 		boolean inPath = false;
 		while (scan.hasNext()) {
-			String line = scan.next();
+			String line = scan.next().toLowerCase();
 			if (inPath) {
-				line = line.toLowerCase();
+				line = line.toLowerCase().toLowerCase();
 				if (!line.contains("id=\"") && line.contains("d=\"")) {
 					line = line.substring(line.indexOf("\"")+1);
 					String result = line;
 					
-					while (!(line = scan.nextLine()).contains("Z")) result += line;
+					while (!(line = scan.nextLine().toLowerCase()).contains("z")) result += line;
 					
 					result += line;
-					result = result.substring(0, result.indexOf('Z'));
+					result = result.substring(0, result.indexOf('z'));
 					
 					String[] instructions = result.split(" ");
 					
@@ -71,35 +77,11 @@ public class Converter {
 							break;
 						}
 						case 'v': {
-							currCord[0] += Double.parseDouble(numbers) * MM_TO_PIXEL;
+							currCord[0] = Double.parseDouble(numbers) * MM_TO_PIXEL;
 							break;
 						}
 						case 'h': {
-							currCord[1] += Double.parseDouble(numbers) * MM_TO_PIXEL;
-							break;
-						}
-						case 'M': {
-							String[] strNums = numbers.split(",");
-							double[] nums = new double[] {Double.parseDouble(strNums[0]), Double.parseDouble(strNums[1])};
-
-							currCord[0] = nums[0] * MM_TO_PIXEL;
-							currCord[1] = nums[1] * MM_TO_PIXEL;
-							break;
-						}
-						case 'L': {
-							String[] strNums = numbers.split(",");
-							double[] nums = new double[] {Double.parseDouble(strNums[0]), Double.parseDouble(strNums[1])};
-
-							currCord[0] += nums[0] * MM_TO_PIXEL;
-							currCord[1] += nums[1] * MM_TO_PIXEL;
-							break;
-						}
-						case 'V': {
-							currCord[0] += Double.parseDouble(numbers) * MM_TO_PIXEL;
-							break;
-						}
-						case 'H': {
-							currCord[1] += Double.parseDouble(numbers) * MM_TO_PIXEL;
+							currCord[1] = Double.parseDouble(numbers) * MM_TO_PIXEL;
 							break;
 						}
 						}
@@ -117,8 +99,14 @@ public class Converter {
 		}
 
 		for (double[][] poly : polygons) {
-			for (double[] coord : poly) {
-				System.out.println("x: " + coord[0] + " y: " + coord[1]);
+			try {
+				Files.write(Paths.get(LevelLoader.class.getResource(to).toURI()), (poly.length+"").getBytes(), StandardOpenOption.APPEND);
+				for (double[] coord : poly) {
+					//TODO: Do something else
+					Files.write(Paths.get(LevelLoader.class.getResource(to).toURI()), (poly.length+"").getBytes(), StandardOpenOption.APPEND);
+				}
+			} catch (IOException | URISyntaxException e) {
+				e.printStackTrace();
 			}
 		}
 	}
