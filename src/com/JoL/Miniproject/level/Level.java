@@ -20,14 +20,13 @@ public class Level {
 	public List<Entity> entities = new ArrayList<Entity>();
 	private List<Entity> addingEntities = new ArrayList<Entity>();
 	private List<Integer> removingEntities = new ArrayList<Integer>();
-	private Player player;
+	public Player player;
 	
 	public Level() {
 		camera = new Camera();
 
 		player = new Player();
 		addEntity(player, 0, 0);
-		addEntity(new GunEnemy(player), 640, -256-128+Main.HEIGHT-64);
 	}
 	
 	public void tick() {
