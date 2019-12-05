@@ -4,6 +4,8 @@ import java.awt.Color;
 
 public class Enemy extends GravityEntity {
 	public Entity target;
+	protected boolean agro;
+	public static double AGRO_DIST = 256;
 	
 	public double speed = 128;
 	
@@ -17,7 +19,7 @@ public class Enemy extends GravityEntity {
 	public void tick() {
 		super.tick();
 		
-		if (dead) return;
+		if (dead || !agro) return;
 		
 		if (target.x + 64 < x) dx = -speed;
 		else if (target.x > x + 64) dx = speed;

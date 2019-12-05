@@ -17,7 +17,7 @@ public class Entity {
 	
 	public Level level;
 	
-	protected boolean grounded;
+	protected boolean grounded = true;
 	public Polygon collider;
 	protected double width, height;
 	public double maxStepHeight = 1;

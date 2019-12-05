@@ -46,31 +46,53 @@ public class GunEnemy extends Enemy {
 		double dx = target.x - x;
 		double dy = target.y - y;
 		
-		flip = dx < 0;
+		System.out.println(agro);
 		
-		gunRotation = Math.atan(dy/dx);
-		
-		shoot -= Main.deltaTime();
-		if (shoot < 0) {
-			//Check if enemy can hit target
-			targetLine.update(x, y, target.x, target.y);
-			boolean hit = true;
-			for (Entity e : level.collideEntity(targetLine)) {
-				if (e == this || e == target) continue;
+		if (agro) {
+			flip = dx < 0;
+			
+			gunRotation = Math.atan(dy/dx);
+			
+			shoot -= Main.deltaTime();
+			if (shoot < 0) {
+				//Check if enemy can hit target
+				targetLine.update(x, y, target.x, target.y);
+				boolean hit = true;
+				for (Entity e : level.collideEntity(targetLine)) {
+					if (e == this || e == target) continue;
+					
+					hit = false;
+					break;
+				}
 				
-				hit = false;
-				break;
+				if (hit && level.collideLevel(targetLine))
+					hit = false;
+				
+				if (hit) {
+					double d = Math.sqrt(dx*dx+dy*dy);
+					
+					level.addEntity(new Bullet(dx/d*1024, dy/d*1024, this), x + width/2, y + height/2);
+					
+					shoot = shootTime;
+				}
 			}
-			
-			if (hit && level.collideLevel(targetLine))
-				hit = false;
-			
-			if (hit) {
-				double d = Math.sqrt(dx*dx+dy*dy);
+		} else {
+			if (dx*dx+dy*dy < AGRO_DIST*AGRO_DIST) {
+				targetLine.update(x, y, target.x, target.y);
+				boolean hit = true;
+				for (Entity e : level.collideEntity(targetLine)) {
+					if (e == this || e == target) continue;
+					
+					hit = false;
+					break;
+				}
 				
-				level.addEntity(new Bullet(dx/d*1024, dy/d*1024, this), x + width/2, y + height/2);
+				if (hit && level.collideLevel(targetLine))
+					hit = false;
 				
-				shoot = shootTime;
+				if (hit) {
+					agro = true;
+				}
 			}
 		}
 	}

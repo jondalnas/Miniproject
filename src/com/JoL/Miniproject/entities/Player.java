@@ -68,7 +68,10 @@ public class Player extends GravityEntity {
 		Level.camera.x = x - Main.WIDTH/2 + 64/2;
 		Level.camera.y = y - Main.HEIGHT/2 + 64/2;
 		
-		if (dead) return;
+		if (dead) {
+			dx = 0;
+			return;
+		}
 		
 		//Calculate sword position
 		double swordX = (Input.mousePos[0] - Main.WIDTH / 2) * width;

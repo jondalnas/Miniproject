@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.JoL.Miniproject.Main;
 import com.JoL.Miniproject.colliders.Collider;
 import com.JoL.Miniproject.colliders.Polygon;
 import com.JoL.Miniproject.entities.Camera;
 import com.JoL.Miniproject.entities.Entity;
-import com.JoL.Miniproject.entities.GunEnemy;
 import com.JoL.Miniproject.entities.Player;
 
 public class Level {
@@ -74,7 +72,6 @@ public class Level {
 	}
 	
 	public void removeEntity(Entity e) {
-		
 		for (int i = 0; i < entities.size(); i++) {
 			if (entities.get(i) == e && !removingEntities.contains(i)) removingEntities.add(i);
 		}
