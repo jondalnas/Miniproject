@@ -108,14 +108,20 @@ public class Player extends GravityEntity {
 				if (c == this) continue;
 				
 				if (c instanceof Enemy) {
-					((Enemy) c).kill();
+					if (!level.collideLevel(new Line(x+width/2, y+height/2, c.x+c.width/2, c.y+c.height/2))) {
+						((Enemy) c).kill();
+					}
 				}
 			}
 			
 			for (Entity c : level.collideEntity(swordColliderClose)) {
 				if (c == this) continue;
 				
-				if (c instanceof Enemy) ((Enemy) c).kill();
+				if (c instanceof Enemy) {
+					if (!level.collideLevel(new Line(x+width/2, y+height/2, c.x+c.width/2, c.y+c.height/2))) {
+						((Enemy) c).kill();
+					}
+				}
 			}
 
 			swingStartAngle = swordRotation;

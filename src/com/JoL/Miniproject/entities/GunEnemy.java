@@ -46,8 +46,6 @@ public class GunEnemy extends Enemy {
 		double dx = target.x - x;
 		double dy = target.y - y;
 		
-		System.out.println(agro);
-		
 		if (agro) {
 			flip = dx < 0;
 			
