@@ -64,6 +64,7 @@ public class Player extends GravityEntity {
 	
 	public void tick() {
 		super.tick();
+		
 		Level.camera.x = x - Main.WIDTH/2 + 64/2;
 		Level.camera.y = y - Main.HEIGHT/2 + 64/2;
 		
