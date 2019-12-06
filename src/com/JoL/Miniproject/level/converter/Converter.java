@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.JoL.Miniproject.level.LevelLoader;
-import com.sun.xml.internal.bind.api.impl.NameConverter.Standard;
 
 public class Converter {
 	private static final double MM_TO_PIXEL = 64/16.933333;

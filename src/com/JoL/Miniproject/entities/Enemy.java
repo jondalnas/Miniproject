@@ -2,6 +2,8 @@ package com.JoL.Miniproject.entities;
 
 import java.awt.Color;
 
+import com.JoL.Miniproject.Sound;
+
 public class Enemy extends GravityEntity {
 	public Entity target;
 	protected boolean agro;
@@ -27,6 +29,9 @@ public class Enemy extends GravityEntity {
 	}
 
 	public void kill() {
+		if (dead) return;
+		
+		Sound.hit.play();
 		dead = true;
 	}
 }

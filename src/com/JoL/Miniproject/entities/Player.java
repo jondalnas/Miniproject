@@ -192,6 +192,7 @@ public class Player extends GravityEntity {
 				x += mouseX * dashDistance;
 				y += mouseY * dashDistance;
 				
+				Sound.dash.play();
 				dashTimer = dashCooldown;
 			}
 		}
@@ -222,6 +223,9 @@ public class Player extends GravityEntity {
 	}
 
 	public void kill() {
+		if (dead) return;
+		
+		Sound.hit.play();
 		dead = true;
 	}
 }
