@@ -22,6 +22,8 @@ public class Main extends Canvas implements Runnable {
 	public static int WIDTH = 640, HEIGHT = 480;
 	
 	private int targetFPS = 60;
+	private static double gameSpeed = 1;
+	private static double targetGameSpeed = 1;
 	
 	private static Screen screen;
 	private static Level level;
@@ -120,11 +122,17 @@ public class Main extends Canvas implements Runnable {
 			tick();
 			
 			render();
+			
+			gameSpeed = targetGameSpeed;
 		}
 	}
 	
 	public static double deltaTime() {
-		return deltaTime;
+		return deltaTime * gameSpeed;
+	}
+	
+	public static void setGameSpeed(double speed) {
+		targetGameSpeed = speed;
 	}
 	
 	public static void setLevel(String level) {

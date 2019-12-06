@@ -31,6 +31,9 @@ public class Player extends GravityEntity {
 	private double swingAnimation;
 	private double swingAnimationTime = 0.05;
 	private double swingStartAngle;
+
+	private double bulletTimeDistance = 128;
+	private double bulletTimeSpeed = 0.05;
 	
 	private boolean dead = false;
 	
@@ -71,6 +74,21 @@ public class Player extends GravityEntity {
 		if (dead) {
 			dx = 0;
 			return;
+		}
+		
+		//Bullet time
+		bulletTime : {
+			for (Bullet b : level.bullets) {
+				double bx = b.x - (x+width/2);
+				double by = b.y - (y+height/2);
+				
+				if (bx*bx+by*by < bulletTimeDistance*bulletTimeDistance) {
+					Main.setGameSpeed(bulletTimeSpeed);
+					break bulletTime;
+				}
+			}
+			
+			Main.setGameSpeed(1);
 		}
 		
 		//Calculate sword position

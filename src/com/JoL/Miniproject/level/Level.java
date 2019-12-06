@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.JoL.Miniproject.colliders.Collider;
 import com.JoL.Miniproject.colliders.Polygon;
+import com.JoL.Miniproject.entities.Bullet;
 import com.JoL.Miniproject.entities.Camera;
 import com.JoL.Miniproject.entities.Entity;
 import com.JoL.Miniproject.entities.Player;
@@ -16,8 +17,10 @@ public class Level {
 	
 	public static Camera camera;
 	public List<Entity> entities = new ArrayList<Entity>();
+	public List<Bullet> bullets = new ArrayList<Bullet>();
 	private List<Entity> addingEntities = new ArrayList<Entity>();
 	private List<Integer> removingEntities = new ArrayList<Integer>();
+	private List<Integer> removingBullets = new ArrayList<Integer>();
 	public Player player;
 	
 	public Level() {
@@ -68,12 +71,18 @@ public class Level {
 		e.y = y;
 		e.level = this;
 		
+		if (e instanceof Bullet) bullets.add((Bullet) e);
+		
 		return addingEntities.size() + entities.size() - 2;
 	}
 	
 	public void removeEntity(Entity e) {
 		for (int i = 0; i < entities.size(); i++) {
 			if (entities.get(i) == e && !removingEntities.contains(i)) removingEntities.add(i);
+		}
+		
+		for (int i = 0; i < bullets.size(); i++) {
+			if (bullets.get(i) == e && !removingBullets.contains(i)) removingBullets.add(i);
 		}
 	}
 	
@@ -84,6 +93,11 @@ public class Level {
 			entities.remove(i);
 		}
 		removingEntities.clear();
+		
+		for (int i : removingBullets) {
+			bullets.remove(i);
+		}
+		removingBullets.clear();
 		
 		for (Entity e : addingEntities) entities.add(e);
 		
