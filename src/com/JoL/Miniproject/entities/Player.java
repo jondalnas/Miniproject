@@ -12,6 +12,7 @@ import java.awt.geom.Area;
 
 import com.JoL.Miniproject.Input;
 import com.JoL.Miniproject.Main;
+import com.JoL.Miniproject.Sound;
 import com.JoL.Miniproject.colliders.Line;
 import com.JoL.Miniproject.level.Level;
 
@@ -113,6 +114,8 @@ public class Player extends GravityEntity {
 				
 				if (c instanceof Enemy) ((Enemy) c).kill();
 			}
+			
+			Sound.slice.play();
 
 			swingStartAngle = swordRotation;
 			swingAnimation = swingAnimationTime;
@@ -124,7 +127,10 @@ public class Player extends GravityEntity {
 		if (Input.keys[KeyEvent.VK_D]) dx += speed;
 		if (Input.keys[KeyEvent.VK_A]) dx -= speed;
 		
-		if (grounded && Input.keys[KeyEvent.VK_SPACE]) dy = -jumpSpeed;
+		if (grounded && Input.keys[KeyEvent.VK_SPACE]) {
+			Sound.jump.play();
+			dy = -jumpSpeed;
+		}
 	}
 	
 	public void render(Graphics g) {

@@ -30,6 +30,8 @@ public class Main extends Canvas implements Runnable {
 	public Main() {
 		Dimension size = new Dimension(WIDTH, HEIGHT);
 		 
+		new Sound();
+		
 		screen = new Screen();
 		setLevel("Shapes");
 		

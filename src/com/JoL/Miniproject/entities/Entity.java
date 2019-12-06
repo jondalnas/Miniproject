@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.JoL.Miniproject.Main;
+import com.JoL.Miniproject.Sound;
 import com.JoL.Miniproject.colliders.Collider;
 import com.JoL.Miniproject.colliders.Polygon;
 import com.JoL.Miniproject.level.Level;
@@ -83,7 +84,11 @@ public class Entity {
 					return true;
 				}
 				
-				if (dy != 0) grounded = true;
+				if (dy != 0) {
+					if (dy > 780) Sound.hitGround.play();
+					
+					grounded = true;
+				}
 				return false;
 			} else if (dx != 0 && colliders.size() == 1) {
 				Collider c = colliders.get(0);
