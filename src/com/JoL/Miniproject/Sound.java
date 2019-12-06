@@ -13,6 +13,8 @@ public class Sound {
 	public static Sound slice = loader("/snd/Slice.wav");
 	public static Sound shoot= loader("/snd/Gun_shot.wav");
 	public static Sound hitGround = loader("/snd/Hit_ground.wav");
+	public static Sound hit = loader("/snd/Hit.wav");
+	public static Sound dash = loader("/snd/Dash.wav");
 	
 	private Clip clip;
 	private static Sound loader(String location) {
