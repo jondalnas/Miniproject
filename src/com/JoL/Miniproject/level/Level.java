@@ -1,9 +1,12 @@
 package com.JoL.Miniproject.level;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.JoL.Miniproject.Input;
+import com.JoL.Miniproject.Main;
 import com.JoL.Miniproject.colliders.Collider;
 import com.JoL.Miniproject.colliders.Polygon;
 import com.JoL.Miniproject.entities.Bullet;
@@ -38,6 +41,8 @@ public class Level {
 		for (Entity e : entities) {
 			e.tick();
 		}
+		
+		if (Input.keys[KeyEvent.VK_R]) Main.setLevel("Shapes");
 	}
 	
 	public List<Collider> collide(Collider c) {

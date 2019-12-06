@@ -6,13 +6,16 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.List;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 
 import com.JoL.Miniproject.Input;
 import com.JoL.Miniproject.Main;
+import com.JoL.Miniproject.Sound;
 import com.JoL.Miniproject.colliders.Line;
+import com.JoL.Miniproject.colliders.Polygon;
 import com.JoL.Miniproject.level.Level;
 
 public class Player extends GravityEntity {
@@ -34,6 +37,10 @@ public class Player extends GravityEntity {
 
 	private double bulletTimeDistance = 128;
 	private double bulletTimeSpeed = 0.05;
+
+	private double dashDistance = 64;
+	private double dashCooldown = 4;
+	private double dashTimer;
 	
 	private boolean dead = false;
 	
@@ -141,6 +148,8 @@ public class Player extends GravityEntity {
 					}
 				}
 			}
+			
+			Sound.slice.play();
 
 			swingStartAngle = swordRotation;
 			swingAnimation = swingAnimationTime;
@@ -152,7 +161,40 @@ public class Player extends GravityEntity {
 		if (Input.keys[KeyEvent.VK_D]) dx += speed;
 		if (Input.keys[KeyEvent.VK_A]) dx -= speed;
 		
-		if (grounded && Input.keys[KeyEvent.VK_SPACE]) dy = -jumpSpeed;
+		if (grounded && Input.keys[KeyEvent.VK_SPACE]) {
+			Sound.jump.play();
+			dy = -jumpSpeed;
+		}
+		
+		//Dash
+		dashTimer -= Main.deltaTime();
+		if (Input.keys[KeyEvent.VK_SHIFT] && dashTimer < 0) {
+			double mouseX = Input.mousePos[0] - Main.WIDTH / 2;
+			double mouseY = Input.mousePos[1] - Main.HEIGHT / 2;
+			double d = Math.sqrt(mouseX * mouseX + mouseY * mouseY);
+
+			mouseX /= d;
+			mouseY /= d;
+
+			collider.x = x + mouseX * dashDistance;
+			collider.y = y + mouseY * dashDistance;
+			
+			collide : {
+				for (Entity e : level.entities) {
+					if (e == this) continue;
+					
+					e.updateCollider();
+					if (e.collider.collide(collider)) break collide;
+				}
+				
+				if (level.collideLevel(collider)) break collide;
+				
+				x += mouseX * dashDistance;
+				y += mouseY * dashDistance;
+				
+				dashTimer = dashCooldown;
+			}
+		}
 	}
 	
 	public void render(Graphics g) {

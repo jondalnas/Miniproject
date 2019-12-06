@@ -7,6 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import com.JoL.Miniproject.Main;
+import com.JoL.Miniproject.Sound;
 import com.JoL.Miniproject.colliders.Line;
 import com.JoL.Miniproject.level.Level;
 
@@ -70,6 +71,7 @@ public class GunEnemy extends Enemy {
 					double d = Math.sqrt(dx*dx+dy*dy);
 					
 					level.addEntity(new Bullet(dx/d*1024, dy/d*1024, this), x + width/2, y + height/2);
+					Sound.shoot.play();
 					
 					shoot = shootTime;
 				}
