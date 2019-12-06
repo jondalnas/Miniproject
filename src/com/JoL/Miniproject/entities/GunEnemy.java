@@ -16,7 +16,7 @@ public class GunEnemy extends Enemy {
 	private static final AffineTransform at = new AffineTransform();
 	private double gunRotation;
 	private boolean flip;
-	private double shootTime = 5;
+	private double shootTime = 1;
 	private double shoot = shootTime;
 	private final Line targetLine = new Line(0,0,0,0);
 	
@@ -54,7 +54,7 @@ public class GunEnemy extends Enemy {
 			shoot -= Main.deltaTime();
 			if (shoot < 0) {
 				//Check if enemy can hit target
-				targetLine.update(x, y, target.x, target.y);
+				targetLine.update(x+width/2, y+height/2, target.x+target.width/2, target.y+target.height/2);
 				boolean hit = true;
 				for (Entity e : level.collideEntity(targetLine)) {
 					if (e == this || e == target) continue;
@@ -76,7 +76,7 @@ public class GunEnemy extends Enemy {
 			}
 		} else {
 			if (dx*dx+dy*dy < AGRO_DIST*AGRO_DIST) {
-				targetLine.update(x, y, target.x, target.y);
+				targetLine.update(x+width/2, y+height/2, target.x+target.width/2, target.y+target.height/2);
 				boolean hit = true;
 				for (Entity e : level.collideEntity(targetLine)) {
 					if (e == this || e == target) continue;
