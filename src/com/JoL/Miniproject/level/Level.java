@@ -13,6 +13,7 @@ import com.JoL.Miniproject.entities.Bullet;
 import com.JoL.Miniproject.entities.Camera;
 import com.JoL.Miniproject.entities.Entity;
 import com.JoL.Miniproject.entities.Player;
+import com.JoL.Miniproject.graphics.Title;
 
 public class Level {
 	public static double GRAVITY = 9.82 * 192; //192 pixels is one meter
@@ -25,8 +26,13 @@ public class Level {
 	private List<Integer> removingEntities = new ArrayList<Integer>();
 	private List<Integer> removingBullets = new ArrayList<Integer>();
 	public Player player;
+	public boolean showingTitle = false;
+
+	public Title title;
 	
 	public Level() {
+		title = new Title(this);
+		
 		camera = new Camera();
 
 		player = new Player();
@@ -34,6 +40,11 @@ public class Level {
 	}
 	
 	public void tick() {
+		if (showingTitle) {
+			title.tick();
+			return;
+		}
+		
 		updateEntities();
 		
 		camera.tick();

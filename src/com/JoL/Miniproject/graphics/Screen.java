@@ -10,12 +10,16 @@ public class Screen {
 	public Level level;
 	
 	public void render(Graphics g) {
-		for (Entity e : level.entities) {
-			e.render(g);
-		}
-
-		for (Polygon p : level.levelPolys) {
-			p.render(g);
+		if (level.showingTitle) {
+			level.title.render(g);
+		} else {
+			for (Entity e : level.entities) {
+				e.render(g);
+			}
+	
+			for (Polygon p : level.levelPolys) {
+				p.render(g);
+			}
 		}
 	}
 }

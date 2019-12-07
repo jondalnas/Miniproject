@@ -36,6 +36,7 @@ public class Main extends Canvas implements Runnable {
 		
 		screen = new Screen();
 		setLevel("Shapes");
+		level.showingTitle = true;
 		
 		input = new Input();
 		addKeyListener(input);
